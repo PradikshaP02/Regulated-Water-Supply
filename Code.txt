@@ -1,0 +1,610 @@
+#CREATION AND INSERTION
+
+--drop table Customer;
+CREATE TABLE Customer
+(
+ cusId varchar(4) primary key,
+ CName varchar(20),
+ email varchar(25),
+ cPwd varchar(8),
+ Occupation varchar(10),
+ check(email like '%@%'),
+ check(LENGTH(cPwd)>=5)
+);
+insert into Customer values('C001','Aamir' ,'aamir01@gmail.com' ,'12345' ,'Engineer');
+insert into Customer values('C002','Baluswamy' ,'balu1978@gmail.com' ,'India!' ,'Professor');
+insert into Customer values('C003','Cynthia' ,'mecynthi@gmail.com' ,'ABCabc' ,'Designer');
+insert into Customer values('C004','Divya' ,'divyacog@gmail.com' ,'abc123' ,'Scientist');
+insert into Customer values('C005','Riya' ,'riyakrish@gmail.com' ,'123ABC!' ,'Pilot');
+insert into Customer values('C006','Advaith' ,'itisadvaith@gmail.com','myself' ,'Singer');
+insert into Customer values('C007','Diya' ,'diya_s@gmail.com' ,'passw' ,'Dancer');
+insert into Customer values('C008','Raksha' ,'raksharocks@gmail.com','itisme' ,'Doctor');
+insert into Customer values('C009','Mithresh' ,'mithru@gmail.com' ,'123!@#' ,'Manager');
+insert into Customer values('C010','Starla' ,'star_la@gmail.com' ,'passwrd' ,'Marketing');
+insert into Customer values('C011','Shilpa' ,'shilpashis@gmail.com' ,'12345' ,'IT');
+insert into Customer values('C012','Dhruv' ,'dhruvhero@gmail.com' ,'123890' ,'Lawyer');
+
+--drop table custPhone;
+CREATE TABLE custPhone
+(
+ cusId varchar(4),
+ cPhone number,
+ primary key(cusId,cPhone),
+ foreign key(cusId) references Customer(cusId)
+);
+insert into custPhone values('C001',9856321032);
+insert into custPhone values('C001',9995632489);
+insert into custPhone values('C002',8881110256);
+insert into custPhone values('C003',9758461230);
+insert into custPhone values('C004',8523697410);
+insert into custPhone values('C004',9746318527);
+insert into custPhone values('C005',9023657418);
+insert into custPhone values('C006',8563214790);
+insert into custPhone values('C007',8456971032);
+insert into custPhone values('C007',9876543210);
+insert into custPhone values('C008',9123456720);
+insert into custPhone values('C008',7892536145);
+insert into custPhone values('C009',8000365014);
+insert into custPhone values('C010',7651414485);
+insert into custPhone values('C010',7433404054);
+insert into custPhone values('C011',8064054054);
+insert into custPhone values('C012',9087547546);
+
+--drop table Supplier;
+CREATE TABLE Supplier
+(
+ supId varchar(4) primary key,
+ supName varchar(20),
+ supMail varchar(25),
+ supPwd varchar(8),
+ check(supMail like '%@%'),
+ check(LENGTH(supPwd)>=5)
+);
+INSERT INTO Supplier VALUES('S001','Jerold' ,'jeg@yahoo.com' ,'123423');
+INSERT INTO Supplier VALUES('S002','Henry' ,'enr@gmail.com' ,'yr123');
+INSERT INTO Supplier VALUES('S003','Jack' ,'ack@rediff.com' ,'jack453');
+INSERT INTO Supplier VALUES('S004','Poojith','oojith@yahoo.com' ,'9a2b3c');
+INSERT INTO Supplier VALUES('S005','Harsith','jhar@email.com' ,'itb09n');
+
+--drop table suppArea;
+CREATE TABLE suppArea
+(
+ supId varchar(4),
+ supArea varchar(20),
+ primary key(supId,supArea),
+ foreign key(supId) references Supplier(supId)
+);
+insert into suppArea values('S001','Thudiyalur');
+insert into suppArea values('S001','Kavundampalayam');
+insert into suppArea values('S002','Kalapatti');
+insert into suppArea values('S002','Saravanampatti');
+insert into suppArea values('S003','Ukkadam');
+insert into suppArea values('S003','Gandhipuram');
+insert into suppArea values('S004','Ramanathapuram');
+insert into suppArea values('S004','Singanallur');
+insert into suppArea values('S005','RS_Puram');
+insert into suppArea values('S005','Vadavalli');
+
+--drop table supPhone;
+CREATE TABLE supPhone
+(
+ supId varchar(4),
+ sPhone number,
+ primary key(supId,sPhone),
+ foreign key(supId) references Supplier(supId)
+);
+INSERT INTO supPhone VALUES('S001',9500872456);
+INSERT INTO supPhone VALUES('S001',8044352673);
+INSERT INTO supPhone VALUES('S002',7654689653);
+INSERT INTO supPhone VALUES('S003',8765676472);
+INSERT INTO supPhone VALUES('S003',8054848410);
+INSERT INTO supPhone VALUES('S004',9265926528);
+INSERT INTO supPhone VALUES('S004',7680763540);
+INSERT INTO supPhone VALUES('S005',9814104453);
+
+--drop table Houses;
+CREATE TABLE Houses
+(
+ houseId int primary key,
+ cusId varchar(4),
+ street int,
+ area varchar(20),
+ numofMembers int,
+ qtyWater float,
+ extraWater float default 0,
+ supplyDay varchar(10),
+ foreign key(cusId) references Customer(cusId),
+ check(supplyDay in ('Monday','Tuesday','Wednesday','Thursday','Friday'))
+);
+
+--drop sequence houseId;
+CREATE SEQUENCE houseId
+MINVALUE 100
+START WITH 100
+INCREMENT BY 1;
+
+INSERT INTO Houses VALUES(houseId.nextval,'C001' ,3 ,'Kalapatti' ,4 ,1000.0 ,250.0 ,'Monday'); --100
+INSERT INTO Houses(houseId,cusId,street,area,numofMembers,qtyWater,supplyDay) VALUES(houseId.nextval,'C002' ,2 ,'Ramanathapuram' ,3 ,900.0 ,'Tuesday'); --101
+INSERT INTO Houses VALUES(houseId.nextval,'C003' ,2 ,'RS_Puram' ,5 ,1100.0 ,500.0 ,'Wednesday'); --102
+INSERT INTO Houses VALUES(houseId.nextval,'C001' ,1 ,'Kavundampalayam' ,6 ,2000.0 ,1000.0 ,'Friday'); --103
+INSERT INTO Houses VALUES(houseId.nextval,'C004' ,3 ,'Gandhipuram' ,4 ,700.0 ,100.0 ,'Thursday'); --104
+INSERT INTO Houses(houseId,cusId,street,area,numofMembers,qtyWater,supplyDay) VALUES(houseId.nextval,'C007' ,2 ,'Kalapatti' ,2 ,1000.0 ,'Monday'); --105
+INSERT INTO Houses(houseId,cusId,street,area,numofMembers,qtyWater,supplyDay) VALUES(houseId.nextval,'C006' ,1 ,'Saravanampatti' ,5 ,2100.0 ,'Monday'); --106
+INSERT INTO Houses(houseId,cusId,street,area,numofMembers,qtyWater,supplyDay) VALUES(houseId.nextval,'C009' ,3 ,'Ukkadam' ,3 ,1700.0 ,'Thursday'); --107
+INSERT INTO Houses VALUES(houseId.nextval,'C004' ,3 ,'Vadavalli' ,4 ,750.0 ,600.0 ,'Wednesday'); --108
+INSERT INTO Houses(houseId,cusId,street,area,numofMembers,qtyWater,supplyDay) VALUES(houseId.nextval,'C008' ,1 ,'Ramanathapuram' ,3 ,950.0 ,'Tuesday'); --109
+INSERT INTO Houses(houseId,cusId,street,area,numofMembers,qtyWater,supplyDay) VALUES(houseId.nextval,'C005' ,2 ,'Singanallur' ,2 ,1300.0 ,'Tuesday'); --110
+INSERT INTO Houses VALUES(houseId.nextval,'C010' ,1 ,'Vadavalli' ,6 ,900.0 ,500.0 ,'Wednesday'); --111
+INSERT INTO Houses VALUES(houseId.nextval,'C001' ,3 ,'Gandhipuram' ,6 ,1500.0 ,250.0 ,'Thursday'); --112
+INSERT INTO Houses(houseId,cusId,street,area,numofMembers,qtyWater,supplyDay) VALUES(houseId.nextval,'C011' ,2 ,'Kavundampalayam' ,5 ,2500.0 ,'Friday'); --113
+INSERT INTO Houses(houseId,cusId,street,area,numofMembers,qtyWater,supplyDay) VALUES(houseId.nextval,'C007' ,3 ,'Ukkadam' ,3 ,750.0 ,'Thursday'); --114
+INSERT INTO Houses(houseId,cusId,street,area,numofMembers,qtyWater,supplyDay) VALUES(houseId.nextval,'C012' ,1 ,'Thudiyalur' ,2 ,1200.0 ,'Friday'); --115
+INSERT INTO Houses VALUES(houseId.nextval,'C009' ,1 ,'Singanallur' ,4 ,1000.0 ,500.0 ,'Tuesday'); --116
+INSERT INTO Houses VALUES(houseId.nextval,'C011' ,2 ,'Saravanampatti' ,2 ,500.0 ,250.0 ,'Monday'); --117
+INSERT INTO Houses(houseId,cusId,street,area,numofMembers,qtyWater,supplyDay) VALUES(houseId.nextval,'C008' ,3 ,'RS_Puram' ,3 ,1300.0 ,'Wednesday'); --118
+INSERT INTO Houses(houseId,cusId,street,area,numofMembers,qtyWater,supplyDay) VALUES(houseId.nextval,'C004' ,2 ,'Kalapatti' ,3 ,1600.0 ,'Monday'); --119
+
+--drop table Area
+CREATE TABLE Area
+(
+ Pincode number primary key,
+ Aname varchar(20),
+ numOfStreets int,
+ numOfHouses int,
+ check(numofHouses>50)
+);
+INSERT INTO Area VALUES(641036,'Kalapatti' ,4 ,65);
+INSERT INTO Area VALUES(641035,'RS_Puram' ,5 ,70);
+INSERT INTO Area VALUES(641045,'Ramanathapuram' ,8 ,87);--
+INSERT INTO Area VALUES(641023,'Gandhipuram' ,3 ,82);--
+INSERT INTO Area VALUES(641025,'Singanallur' ,4 ,98);--
+INSERT INTO Area VALUES(641076,'Saravanampatti' ,8 ,91);--
+INSERT INTO Area VALUES(641013,'Ukkadam' ,4 ,67);
+INSERT INTO Area VALUES(641078,'Vadavalli' ,6 ,79);--
+INSERT INTO Area VALUES(641065,'Kavundampalayam',7 ,52);
+INSERT INTO Area VALUES(641089,'Thudiyalur' ,5 ,96);--
+
+--drop table Water;
+CREATE TABLE Water
+(
+ Pincode number,
+ tankNum int,
+ avlQty float,
+ hardness number,
+ pH float,
+ clConc float,
+ primary key(Pincode,tankNum),
+ foreign key(Pincode) references Area(Pincode),
+ check(pH>=6.5 and pH<=8.5),
+ check(clConc<=1.0),
+ check(hardness>=60 and hardness<=120)
+);
+insert into Water values(641035 ,1 ,30000.0 ,70 ,6.5 ,0.97);
+insert into Water values(641036 ,1 ,20000.0 ,85 ,7.1 ,0.75);
+insert into Water values(641078 ,1 ,30000.0 ,100 ,8.3 ,0.58);
+insert into Water values(641078 ,2 ,10000.0 ,60 ,7.9 ,0.56);--
+insert into Water values(641045 ,1 ,25000.0 ,112 ,6.9 ,0.63);
+insert into Water values(641045 ,2 ,15000.0 ,114 ,6.7 ,0.61);--
+insert into Water values(641023 ,1 ,35000.0 ,84 ,7.4 ,0.96);
+insert into Water values(641023 ,2 ,15000.0 ,83 ,7.7 ,0.99);--
+insert into Water values(641025 ,1 ,27000.0 ,97 ,7.6 ,0.79);
+insert into Water values(641025 ,2 ,17000.0 ,95 ,7.4 ,0.72);--
+insert into Water values(641076 ,1 ,33000.0 ,65 ,7.0 ,0.65);
+insert into Water values(641076 ,2 ,13000.0 ,64 ,7.2 ,0.69);--
+insert into Water values(641013 ,1 ,29000.0 ,72 ,8.2 ,0.82);
+insert into Water values(641065 ,1 ,32000.0 ,115 ,6.8 ,0.91);
+insert into Water values(641089 ,1 ,24000.0 ,80 ,7.5 ,0.66);
+insert into Water values(641089 ,2 ,14000.0 ,83 ,7.4 ,0.64);--
+
+--drop table Bill;
+CREATE TABLE Bill
+(
+ cusID varchar(4),
+ houseID int,
+ billAmt float default 0.0,
+ qtyUsed float default 0.0,
+ status varchar(6),
+ primary key(cusId,houseId),
+ foreign key(cusId) references Customer(cusId),
+ foreign key(houseId) references Houses(houseId),
+ check(status in ('Paid','Unpaid'))
+);
+insert into Bill values('C001',100 ,375.0 ,1250.0 ,'Paid');--1000+250
+insert into Bill values('C001',103 ,1250.0 ,1200.0 ,'Unpaid');--1000+2000
+insert into Bill values('C001',112 ,500.0 ,1750.0 ,'Paid');--1500+250
+insert into Bill values('C002',101 ,225.0 ,900.0 ,'Paid');--900
+insert into Bill values('C003',102 ,525.0 ,1600.0 ,'Unpaid');--1100+500
+insert into Bill values('C004',104 ,225.0 ,800.0 ,'Paid');--700+100
+insert into Bill values('C004',108 ,487.5 ,1350.0 ,'Paid');--750+600
+insert into Bill values('C004',119 ,400.0 ,1600.0 ,'Unpaid');--1600
+insert into Bill values('C005',110 ,325.0 ,1300.0 ,'Unpaid');--1300
+insert into Bill values('C006',106 ,525.0 ,2100.0 ,'Paid');--2100
+insert into Bill values('C007',105 ,250.0 ,1000.0 ,'Unpaid');--1000
+insert into Bill values('C007',114 ,187.5 ,750.0 ,'Paid');--750
+insert into Bill values('C008',109 ,237.5 ,950.0 ,'Unpaid');--950
+insert into Bill values('C008',118 ,325.0 ,1300.0 ,'Unpaid');--1300
+insert into Bill values('C009',107 ,425.0 ,1700.0 ,'Paid');--1700
+insert into Bill values('C009',116 ,500.0 ,1500.0 ,'Unpaid');--1000+500
+insert into Bill values('C010',111 ,375.0 ,1400.0 ,'Paid');--900+500
+insert into Bill values('C011',113 ,625.0 ,2500.0 ,'Unpaid');--2500
+insert into Bill values('C011',117 ,250.0 ,750.0 ,'Unpaid');--500+250
+insert into Bill values('C012',115 ,300 ,1200.0 ,'Paid');--1200
+
+--drop table cusFeedback;
+CREATE TABLE cusFeedback
+(
+ houseId int primary key,
+ cusId varchar(4),
+ supId varchar(4),
+ Rating int,
+ FDate date,
+ foreign key(cusId) references Customer(cusId),
+ foreign key(supId) references Supplier(supId),
+ foreign key(houseId) references Houses(houseId),
+ check(Rating>=1 and Rating<=5)
+);
+insert into cusFeedback values(101,'C002','S004',3,'12-JAN-2019');
+insert into cusFeedback values(104,'C004','S003',5,'24-MAR-2020');
+insert into cusFeedback values(106,'C006','S002',2,'15-FEB-2020');
+insert into cusFeedback values(114,'C007','S002',4,'18-JUL-2019');
+insert into cusFeedback values(118,'C008','S004',3,'22-DEC-2020');
+insert into cusFeedback values(111,'C010','S005',5,'10-OCT-2018');
+insert into cusFeedback values(113,'C011','S001',4,'08-AUG-2019');
+
+QUERIES
+
+SET SERVEROUTPUT ON;
+
+--1--Given a day, get the areas for water supply
+DECLARE
+ d Houses.supplyDay%type;
+BEGIN
+ d:= '&supplyDay';
+ for i in (select distinct area from Houses where supplyDay = d)
+ LOOP
+   DBMS_OUTPUT.PUT_LINE(i.area);
+ END LOOP;
+END;
+
+--2--Water Suitablity
+DECLARE
+ CURSOR C IS select Aname,tankNum from Area natural join Water where pH>=6.8 and pH<=7.2;
+BEGIN
+ DBMS_OUTPUT.PUT_LINE('Suitable Water Avilable in:');
+ DBMS_OUTPUT.PUT_LINE('Area Name'||CHR(9)||CHR(9)||'Tank Number');
+ DBMS_OUTPUT.PUT_LINE('---------------------------');
+ for i in C
+ LOOP
+  DBMS_OUTPUT.PUT_LINE(i.Aname|| CHR(9)||CHR(9) ||i.tankNum );
+ END LOOP;
+END;
+
+--3--Given the Id and Password of Supplier, Get the details
+DECLARE
+ n int;
+ userId Supplier.supId%type;
+ pwd Supplier.supPwd%type;
+ CURSOR C IS select supId,supName,sPhone,supMail from Supplier natural join supPhone where supId = userId and supPwd = pwd;
+ Id Supplier.supId%type;
+ Name Supplier.supName%type;
+ Phone supPhone.sPhone%type;
+ Mail Supplier.supMail%type;
+BEGIN
+ userId := '&supId';
+ pwd := '&supPwd';
+ OPEN C;
+ LOOP
+   fetch C into Id,Name,Phone,Mail;
+   EXIT when C%notfound;
+ END LOOP;
+ n:=C%rowcount;
+ if n>0 then
+  for i in (select supId,supName,sPhone,supMail from Supplier natural join supPhone where supId = userId and supPwd = pwd)
+  LOOP
+   DBMS_OUTPUT.PUT_LINE(i.supId||CHR(9)||i.supName||CHR(9)||i.sPhone||CHR(9)||i.supMail);
+  END LOOP;
+ else
+  DBMS_OUTPUT.PUT_LINE('Invalid Supplier Id or Password');
+ end if;
+ close C;
+END;
+
+--4--Given a day find the quantity of water to be supplied
+DECLARE
+ sday Houses.supplyDay%type;
+ sQty float := 0.0;
+BEGIN
+ sday:= '&supplyDay';
+ for i in (select qtyWater from Houses where sday = supplyDay)
+ LOOP
+  sQty := sQty + i.qtyWater;
+ END LOOP;
+ DBMS_OUTPUT.PUT_LINE('Quantity of water supplied on '|| sday || ' : ' || sQty);
+END;
+
+--5--Function to get the Max qty of Water supplied
+CREATE OR REPLACE FUNCTION findMax (areaName Houses.area%type)
+RETURN INT AS
+ maxQuantity int :=0;
+BEGIN
+ select max(qtyWater) into maxQuantity from Houses where area = areaName;
+ return maxQuantity;
+END;
+
+DECLARE
+ areaName Houses.area%type;
+ maximum int;
+BEGIN
+ areaName := '&area';
+ maximum := findMax(areaName);
+ dbms_output.put_line('The maximum quantity of water used in a house in ' || areaName || ' is ' || maximum);
+END;
+
+--6--Check Phone of supplier as 10 Digits
+CREATE OR REPLACE TRIGGER chkNumberSup
+before insert on supPhone
+for each row
+DECLARE
+ n int;
+BEGIN
+ if length(:new.sPhone)<>10 then
+ raise_application_error(-20001,'Phone Number must be of 10 digits');
+ end if;
+END;
+
+INSERT INTO supPhone VALUES('S004',763540);
+--7--Given an area display the details of supplier with pincode
+DECLARE
+ area suppArea.supArea%type;
+ 
+ CURSOR C IS select distinct supId,supName,supMail,z.Pincode from Supplier natural join(select Pincode,supId,supArea from Area a join suppArea s on a.Aname=s.supArea where supArea = area)z;
+BEGIN
+ area := '&supArea';
+ For i in C
+ LOOP
+  DBMS_OUTPUT.PUT_LINE(i.supId||CHR(9)||i.supName||CHR(9)||i.supMail||CHR(9)||i.Pincode);
+ END LOOP;
+END;
+
+--8--Given an area, get the no of Houses
+DECLARE
+ ar Area.aName%type;
+BEGIN
+ ar:= '&aName';
+ for i in (select numOfHouses from Area where aName = ar)
+ LOOP
+  DBMS_OUTPUT.PUT_LINE('The number of houses in ' || ar || ' : ' || i.numOfHouses);
+ END LOOP;
+END;
+
+--9--Unpaid bill details of Customer id, House id and bill amt
+DECLARE
+ CURSOR C IS select cusID,houseID,billAmt from Bill where status = 'Unpaid';
+BEGIN
+ DBMS_OUTPUT.PUT_LINE('Unpaid bills');
+ DBMS_OUTPUT.PUT_LINE('Customer ID'||CHR(9)||'House ID'||CHR(9)||'Bill Amount');
+ DBMS_OUTPUT.PUT_LINE('-----------------------------------');
+ for i in C
+ LOOP
+  DBMS_OUTPUT.PUT_LINE(i.cusID || CHR(9)||CHR(9) ||i.houseID || CHR(9)||CHR(9)||CHR(9) ||i.billAmt);
+ END LOOP;
+END;
+
+--10--Availing extra water --Updation in bill amount
+DECLARE
+ HID Houses.houseId%type;
+ xtraWater Houses.extraWater%type;
+ liveArea Houses.area%type;
+ code Area.Pincode%type;
+BEGIN
+ HID := '&houseId';
+ xtraWater := '&extraWater';
+ select area into liveArea from Houses where houseId = HID;
+ select Pincode into code from Area where liveArea = AName;
+ update Houses set extraWater = extraWater + xtraWater where houseId = HID;
+ update Bill set qtyUsed = qtyUsed + xtraWater , billAmt = billAmt + (xtraWater * 0.50) where houseId = HID;
+ update Water set avlQty = avlQty - xtraWater where Pincode = code;
+ DBMS_OUTPUT.PUT_LINE('Water will be supplied within few hours!');
+END;
+
+---11--The tank that contain the maximum qty of water among areas
+BEGIN
+ for i in (select Aname,w.Pincode,tankNum,avlQty from Area a join Water w on a.Pincode = w.Pincode where avlQty =(select max(avlQty) from Water))
+ LOOP
+  DBMS_OUTPUT.PUT_LINE(i.Aname||CHR(9)||i.Pincode||CHR(9)||i.tankNum||CHR(9)||i.avlQty);
+ END LOOP;
+END;
+
+--12--Before supply to houses check the avilable qty in area
+CREATE OR REPLACE TRIGGER decWater
+before insert on Houses
+for each row
+DECLARE
+ waterQtyAvl Water.avlQty%type;
+BEGIN
+ SELECT avlQty into waterQtyAvl from Water where Pincode in (select Pincode from Area where AName=:new.area);
+ if waterQtyAvl<:new.qtyWater then
+ raise_application_error(-20001,'Water not Available');
+ end if;
+END;
+
+--13--Houses that acquire more water than required
+BEGIN
+ DBMS_OUTPUT.PUT_LINE('Houses that are using excess water : ');
+ for i in (select houseId,numOfMembers,qtyWater,extraWater from Houses)
+ LOOP
+  if (i.numofMembers * 350) <= (i.qtyWater + i.extrawater) then
+  DBMS_OUTPUT.PUT_LINE(i.houseId);
+  end if;
+ end loop;
+end;
+
+--14--Given the Id and Password of Customer, Get the details
+DECLARE
+ n int;
+ userId Customer.cusId%type;
+ pwd Customer.cPwd%type;
+ CURSOR C IS select cusId,cName,cPhone,email,Occupation from Customer natural join custPhone where cusId = userId and cPwd = pwd;
+ Id Customer.cusId%type;
+ Name Customer.cName%type;
+ Phone custPhone.cPhone%type;
+ Mail Customer.email%type;
+ Ocp Customer.Occupation%type;
+ 
+BEGIN
+ userId := '&custId';
+ pwd := '&cPwd';
+ OPEN C;
+ LOOP
+ fetch C into Id,Name,Phone,Mail,Ocp;
+ EXIT when C%notfound;
+ END LOOP;
+ n:=C%rowcount;
+ if n>0 then
+ for i in (select cusId,cName,cPhone,email,Occupation from Customer natural join custPhone where cusId = userId and cPwd = pwd)
+ LOOP
+  DBMS_OUTPUT.PUT_LINE(i.cusId||CHR(9)||i.cName||CHR(9)||i.cPhone||CHR(9)||i.email||CHR(9)||i.Occupation);
+ END LOOP;
+ else
+ DBMS_OUTPUT.PUT_LINE('Invalid Customer Id or Password');
+ end if;
+ close C;
+END;
+
+--15--Bill for a particular house
+DECLARE
+HID Houses.houseId%type;
+billAmount float := 0.0;
+BEGIN
+ HID := '&houseId';
+ select billAmt into billAmount from Bill where HID = houseId;
+ DBMS_OUTPUT.PUT_LINE('Bill amount for house number ' || HID || ' : ' || billAmount || ' rupees only');
+END;
+
+--16--Check Phone of Customer as 10 Digits
+CREATE OR REPLACE TRIGGER chkNumberCust
+before insert on custPhone
+for each row
+DECLARE
+ n int;
+BEGIN
+ if length(:new.cPhone)<>10 then
+ raise_application_error(-20001,'Phone Number must be of 10 digits');
+ end if;
+END;
+
+INSERT INTO supPhone VALUES('C007',763540);
+--17--Insert Feedback with system date
+DECLARE
+ h_id cusFeedback.houseId%type;
+ c_id cusFeedback.cusId%type;
+ s_id cusFeedback.supId%type;
+ rat cusFeedback.Rating%type;
+ dat cusFeedback.FDate%type;
+BEGIN
+ INSERT INTO cusFeedback values('&h_id','&c_id','&s_id','&rat',sysdate);
+END;
+
+--18--Bill that is to be paid by a particular customer
+DECLARE
+ CusName Customer.CName%type;
+ CusIdentity Customer.cusId%type;
+ billAmount float := 0.0;
+BEGIN
+ CusName := '&CName';
+ select cusId into CusIdentity from Customer where CusName = CName;
+ select sum(billAmt) into billAmount from Bill where cusId = CusIdentity group by cusId;
+ DBMS_OUTPUT.PUT_LINE('Bill amount that you need to pay : ' || billAmount || ' rupees only');
+END;
+
+--19--Given the customer name find the days of supply of water to his/her house(s)
+DECLARE
+ nameCus Customer.CName%type;
+BEGIN
+ nameCus := '&CName';
+ for i in (select distinct(supplyDay) from Houses where cusId in (select cusId from Customer where nameCus = CName))
+ LOOP
+ DBMS_OUTPUT.PUT_LINE(i.supplyDay);
+ END LOOP;
+END;
+
+--20--Decrease the Quantiy of water from the area after supply to Houses
+CREATE OR REPLACE TRIGGER decWater
+after insert on Houses
+for each row
+BEGIN
+ UPDATE Water set avlQty = avlQty - :new.qtywater
+ where
+ Pincode in (select Pincode from Area where AName=:new.area);
+END;
+
+--21--Given an area find the quantity of water to be supplied and number of houses there
+DECLARE
+ place varchar(20);
+ reqQty float := 0.0;
+ housesNumber Area.numOfHouses%type;
+BEGIN
+ place := '&area';
+ select sum(qtyWater) into reqQty from Houses where place = area group by area ;
+ select numOfHouses into housesNumber from Area where place = AName;
+ DBMS_OUTPUT.PUT_LINE('Required Quantity of water for ' || place || ' : ' ||reqQty || ' for ' || housesNumber || ' houses.');
+END;
+
+--22--Area(s) that have more than one water tank
+BEGIN
+ for i in (select AName from Area where Pincode in (select Pincode from Water group by Pincode having count(TankNum)>1))
+ LOOP
+ DBMS_OUTPUT.PUT_LINE(i.AName);
+ END LOOP;
+END;
+
+--23--Total number of people living in the houses owned by a given person
+DECLARE
+ CustomerID Customer.cusId%type;
+ memsum int;
+BEGIN
+ CustomerId := '&cusId';
+ select sum(numOfMembers) into memsum from Houses group by cusId having cusId = CustomerId;
+ DBMS_OUTPUT.PUT_LINE('Total number of members living in the houses owned by '|| CustomerId || ' : ' || memsum);
+END;
+
+--24--Finding the houses of a customer that get water supply on a given day
+DECLARE
+ sDay Houses.supplyDay%type;
+ customerId Houses.cusId%Type;
+ id int;
+ n int;
+ 
+ CURSOR cur1 is select houseId from Houses where cusID = customerId and supplyDay = sDay;
+BEGIN
+ 
+ sDay := '&supDay';
+ customerId := '&cusId';
+ open cur1;
+ LOOP
+ fetch cur1 into id;
+ EXIT when cur1%NOTFOUND;
+ END LOOP;
+ n := cur1%rowcount;
+ 
+ if n=0 then
+ DBMS_OUTPUT.PUT_LINE('No water supply for your house(s) today');
+ else
+ DBMS_OUTPUT.PUT_LINE('The houses of yours that get water suply today are : ');
+ for i in (select houseId from Houses where cusID = customerId and supplyDay = sDay)
+ LOOP
+  DBMS_OUTPUT.PUT_LINE(i.houseId);
+ END LOOP;
+ end if;
+ CLOSE cur1;
+END;
+
+--25--Find the number of people living in a particular area
+DECLARE 
+ ar Houses.area%type;
+ Members int;
+BEGIN
+ ar := '&Area';
+ select sum(numofMembers) into Members from Houses where area = ar;
+ DBMS_OUTPUT.PUT_LINE('Total residents in the given area : '||Members);
+END;
